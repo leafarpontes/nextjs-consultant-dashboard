@@ -1,3 +1,4 @@
+import DashboardFilters from "@/components/DashboardFilters";
 import { PrismaClient } from "./generated/prisma/client";
 
 const prisma = new PrismaClient();
@@ -14,7 +15,7 @@ export default async function Home() {
           Dashboard
         </h1>
         <div className='h-12'>Criar usuário</div>
-        <div className='h-12'>Filters</div>
+        <DashboardFilters />
         <table className='w-full border-collapse font text-sm'>
           <thead>
             <tr className='bg-background my-2 border border-grey-border'>
