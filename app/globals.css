@@ -9,4 +9,6 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-brand-white: #fafafa;
+  --color-grey-border: #222729;
+  --font-red-hat-display: var(--font-red-hat-display);
 }
