@@ -1,11 +1,11 @@
 import DashboardFilters from "@/components/DashboardFilters";
-import { PrismaClient } from "./generated/prisma/client";
+import { PrismaClient, Prisma } from "./generated/prisma/client";
 
 const prisma = new PrismaClient();
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ consultant?: string, consultantEmail?: string, dateFrom?: string, dateTo?: string }> }) {
   const params = await searchParams;
-  const whereClause: any = { type: 'USER' };
+  const whereClause: Prisma.UserWhereInput = { type: 'USER' };
   
   if (params.consultant) {
     whereClause.consultantId = params.consultant;
