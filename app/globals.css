@@ -10,5 +10,8 @@
   --font-mono: var(--font-geist-mono);
   --color-brand-white: #fafafa;
   --color-grey-border: #222729;
+  --color-brand-green: #1b3f1b;
+  --color-brand-green-hover: #255925;
+  --color-brand-bright-green: #00f700;
   --font-red-hat-display: var(--font-red-hat-display);
 }

@@ -3,8 +3,29 @@ import { PrismaClient } from "./generated/prisma/client";
 
 const prisma = new PrismaClient();
 
-export default async function Home() {
-  const users = await prisma.user.findMany({ where: { type: 'USER' } });
+export default async function Home({ searchParams }: { searchParams: Promise<{ consultant?: string, consultantEmail?: string, dateFrom?: string, dateTo?: string }> }) {
+  const params = await searchParams;
+  const whereClause: any = { type: 'USER' };
+  
+  if (params.consultant) {
+    whereClause.consultantId = params.consultant;
+  }
+  
+  if (params.consultantEmail) {
+    const consultant = await prisma.user.findFirst({ where: { email: params.consultantEmail, type: 'CONSULTANT' } });
+    if (consultant) {
+      whereClause.consultantId = consultant.id;
+    }
+  }
+  
+  if (params.dateFrom && params.dateTo) {
+    whereClause.createdAt = {
+      gte: new Date(params.dateFrom),
+      lte: new Date(params.dateTo + 'T23:59:59.999Z')
+    };
+  }
+  
+  const users = await prisma.user.findMany({ where: whereClause });
   console.log('users', users);
   return (
     <main
@@ -15,7 +36,7 @@ export default async function Home() {
           Dashboard
         </h1>
         <div className='h-12'>Criar usuário</div>
-        <DashboardFilters />
+        <DashboardFilters searchParams={params} />
         <table className='w-full border-collapse font text-sm'>
           <thead>
             <tr className='bg-background my-2 border border-grey-border'>
