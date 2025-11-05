@@ -1,5 +1,6 @@
 import DashboardFilters from "@/components/DashboardFilters";
 import { PrismaClient, Prisma } from "./generated/prisma/client";
+import Link from "next/link";
 
 const prisma = new PrismaClient();
 
@@ -35,9 +36,12 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
         <h1 className='text-3xl font-extrabold'>
           Dashboard
         </h1>
-        <button type='submit' className='bg-brand-green hover:bg-brand-green-hover hover:cursor-pointer text-brand-bright-green px-3 py-2 rounded-lg text-sm my-2'>
+        <Link
+          href={'/create-user'}
+          className='inline-block bg-brand-green hover:bg-brand-green-hover hover:cursor-pointer text-brand-bright-green px-3 py-2 rounded-lg text-sm my-2'
+        >
           Criar usuário +
-        </button>
+        </Link>
         <DashboardFilters searchParams={params} />
         <table className='w-full border-collapse font text-sm'>
           <thead>
