@@ -18,7 +18,7 @@ export const useClientSelection = (userType: string) => {
     const fetchUsers = async () => {
       if (userType === 'CONSULTANT') {
         try {
-          const response = await fetch('/api/users');
+          const response = await fetch('/api/users?type=USER&fields=basic');
           const data = await response.json();
           setUsers(data);
         } catch (error) {
@@ -39,6 +39,7 @@ export const useClientSelection = (userType: string) => {
   return {
     users,
     selectedClients,
+    setSelectedClients,
     searchTerm,
     setSearchTerm,
     filteredUsers,

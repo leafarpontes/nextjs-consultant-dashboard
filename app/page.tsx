@@ -36,12 +36,20 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
         <h1 className='text-3xl font-extrabold'>
           Dashboard
         </h1>
-        <Link
-          href={'/create-user'}
-          className='inline-block bg-brand-green hover:bg-brand-green-hover hover:cursor-pointer text-brand-bright-green px-3 py-2 rounded-lg text-sm my-2'
-        >
-          Criar usuário +
-        </Link>
+        <div className='flex gap-4 my-2'>
+          <Link
+            href={'/create-user'}
+            className='inline-block bg-brand-green hover:bg-brand-green-hover hover:cursor-pointer text-brand-bright-green px-3 py-2 rounded-lg text-sm'
+          >
+            Criar usuário +
+          </Link>
+          <Link
+            href={'/edit-user'}
+            className='inline-block bg-[#3F321B] hover:bg-[#594925] hover:cursor-pointer text-[#F7C700] px-3 py-2 rounded-lg text-sm'
+          >
+            Editar usuário
+          </Link>
+        </div>
         <DashboardFilters searchParams={params} />
         <table className='w-full border-collapse font text-sm'>
           <thead>

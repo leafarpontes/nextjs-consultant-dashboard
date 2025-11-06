@@ -25,7 +25,7 @@ export default function CreateUser() {
   return (
     <main className='pt-12 flex justify-center font-red-hat-display text-brand-white text-sm'>
       <form onSubmit={onSubmit} className='bg-background p-8 border border-grey-border rounded-lg max-w-2xl w-full'>
-        <h1 className='text-2xl font-extrabold mb-8 text-center'>Criar usuário</h1>
+        <h1 className='text-2xl font-extrabold mb-8 text-center'>Criar Usuário</h1>
         
         <FormField
           label='Tipo do usuário'
