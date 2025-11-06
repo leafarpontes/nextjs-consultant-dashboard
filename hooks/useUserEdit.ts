@@ -7,19 +7,20 @@ export const useUserEdit = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const filteredUsers = allUsers.filter(user => 
+  const filteredUsers = Array.isArray(allUsers) ? allUsers.filter(user => 
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) : [];
 
   const fetchAllUsers = async () => {
     setLoading(true);
     try {
       const response = await fetch('/api/users');
       const data = await response.json();
-      setAllUsers(data);
+      setAllUsers(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Failed to fetch users:', error);
+      setAllUsers([]);
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,8 @@
 import DashboardFilters from "@/components/DashboardFilters";
-import { PrismaClient, Prisma } from "./generated/prisma/client";
+import { Prisma } from "./generated/prisma/client";
 import Link from "next/link";
-
-const prisma = new PrismaClient();
+import { formatBrazilianDateTime, formatAge } from "@/utils/formatters";
+import { prisma } from "@/lib/prisma";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ consultant?: string, consultantEmail?: string, dateFrom?: string, dateTo?: string }> }) {
   const params = await searchParams;
@@ -71,10 +71,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
                 <td className='py-7 px-10 text-left'>{user.email}</td>
                 <td className='py-7 px-10 text-left'>{user.phone}</td>
                 <td className='py-7 px-10 text-left'>{user.cpf}</td>
-                <td className='py-7 px-10 text-left'>{user.age}</td>
+                <td className='py-7 px-10 text-left'>{formatAge(user.age)}</td>
                 <td className='py-7 px-10 text-left'>{user.address}</td>
-                <td className='py-7 px-10 text-left'>{user.createdAt.toLocaleDateString()}</td>
-                <td className='py-7 px-10 text-left'>{user.updatedAt.toLocaleDateString()}</td>
+                <td className='py-7 px-10 text-left'>{formatBrazilianDateTime(user.createdAt)}</td>
+                <td className='py-7 px-10 text-left'>{formatBrazilianDateTime(user.updatedAt)}</td>
               </tr>
             ))}
           </tbody>
