@@ -6,10 +6,11 @@ import BasicInfoTab from '@/components/forms/BasicInfoTab';
 import ClientSelectionTab from '@/components/forms/ClientSelectionTab';
 import { useUserForm } from '@/hooks/useUserForm';
 import { useClientSelection } from '@/hooks/useClientSelection';
+import { formatPhone } from '@/utils/formatters';
 
 export default function CreateUser() {
   const [activeTab, setActiveTab] = useState('basic');
-  const { cpf, setCpf, userType, setUserType, formData, handleInputChange, handleSubmit } = useUserForm();
+  const { cpf, setCpf, userType, setUserType, formData, handleInputChange, handleSubmit, errors, validateCpfField, isFormValid } = useUserForm();
   const { selectedClients, searchTerm, setSearchTerm, filteredUsers, toggleClientSelection } = useClientSelection(userType);
 
   const handleUserTypeChange = (value: string) => {
@@ -50,9 +51,11 @@ export default function CreateUser() {
           <FormField
             label='Telefone'
             name='phone'
-            placeholder='Digite o telefone'
+            placeholder='(00) 00000-0000'
             value={formData.phone}
             onChange={(value) => handleInputChange('phone', value)}
+            mask={formatPhone}
+            error={errors.phone}
             required
           />
         </div>
@@ -65,6 +68,7 @@ export default function CreateUser() {
             placeholder='Digite o email'
             value={formData.email}
             onChange={(value) => handleInputChange('email', value)}
+            error={errors.email}
             required
           />
         </div>
@@ -98,6 +102,8 @@ export default function CreateUser() {
             cpf={cpf}
             onInputChange={handleInputChange}
             onCpfChange={setCpf}
+            errors={errors}
+            onCpfValidate={validateCpfField}
           />
         )}
 
@@ -112,7 +118,15 @@ export default function CreateUser() {
         )}
 
         <div className='flex justify-center mt-8'>
-          <button type='submit' className='bg-brand-green hover:bg-brand-green-hover hover:cursor-pointer text-brand-bright-green px-4 py-3 rounded-lg'>
+          <button 
+            type='submit' 
+            disabled={!isFormValid()}
+            className={`px-4 py-3 rounded-lg ${
+              isFormValid() 
+                ? 'bg-brand-green hover:bg-brand-green-hover hover:cursor-pointer text-brand-bright-green' 
+                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+            }`}
+          >
             Criar Usuário
           </button>
         </div>

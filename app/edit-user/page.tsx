@@ -6,7 +6,9 @@ import FormField from '@/components/forms/FormField';
 import ClientSelectionTab from '@/components/forms/ClientSelectionTab';
 import { useUserEdit } from '@/hooks/useUserEdit';
 import { useClientSelection } from '@/hooks/useClientSelection';
+import { useEditFormValidation } from '@/hooks/useEditFormValidation';
 import { BRAZILIAN_STATES } from '@/constants/states';
+import { formatPhone, formatCEP } from '@/utils/formatters';
 
 export default function EditUser() {
   const [activeTab, setActiveTab] = useState('basic');
@@ -24,6 +26,7 @@ export default function EditUser() {
 
   const { selectedUser, searchTerm, setSearchTerm, filteredUsers, selectUser, loading } = useUserEdit();
   const { selectedClients, setSelectedClients, searchTerm: clientSearchTerm, setSearchTerm: setClientSearchTerm, filteredUsers: availableClients, toggleClientSelection } = useClientSelection(selectedUser?.type || 'USER');
+  const { errors, validateField, isFormValid } = useEditFormValidation();
 
   // Load user data when selected
   useEffect(() => {
@@ -57,11 +60,17 @@ export default function EditUser() {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    validateField(field as keyof typeof formData, value);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedUser) return;
+
+    if (!isFormValid(formData)) {
+      alert('Por favor, corrija os erros no formulário antes de continuar.');
+      return;
+    }
 
     const userData = {
       id: selectedUser.id,
@@ -139,8 +148,11 @@ export default function EditUser() {
           <FormField
             label='Telefone'
             name='phone'
+            placeholder='(00) 00000-0000'
             value={formData.phone}
             onChange={(value) => handleInputChange('phone', value)}
+            mask={formatPhone}
+            error={errors.phone}
             required
           />
         </div>
@@ -152,6 +164,7 @@ export default function EditUser() {
             type='email'
             value={formData.email}
             onChange={(value) => handleInputChange('email', value)}
+            error={errors.email}
             required
           />
         </div>
@@ -207,8 +220,11 @@ export default function EditUser() {
               <FormField
                 label='CEP'
                 name='cep'
+                placeholder='00000-000'
                 value={formData.cep}
                 onChange={(value) => handleInputChange('cep', value)}
+                mask={formatCEP}
+                error={errors.cep}
                 required
               />
               <FormField
@@ -251,7 +267,15 @@ export default function EditUser() {
         )}
 
         <div className='flex justify-center mt-8'>
-          <button type='submit' className='bg-[#3F321B] hover:bg-[#594925] hover:cursor-pointer text-[#F7C700] px-4 py-3 rounded-lg'>
+          <button 
+            type='submit' 
+            disabled={!isFormValid(formData)}
+            className={`px-4 py-3 rounded-lg ${
+              isFormValid(formData) 
+                ? 'bg-[#3F321B] hover:bg-[#594925] hover:cursor-pointer text-[#F7C700]' 
+                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+            }`}
+          >
             Atualizar Usuário
           </button>
         </div>

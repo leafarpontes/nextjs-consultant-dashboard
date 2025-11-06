@@ -7,12 +7,19 @@ interface FormFieldProps {
   onChange: (value: string) => void;
   required?: boolean;
   options?: { value: string; label: string }[];
+  error?: string;
+  mask?: (value: string) => string;
 }
 
 export default function FormField({ 
-  label, name, type = 'text', placeholder, value, onChange, required, options 
+  label, name, type = 'text', placeholder, value, onChange, required, options, error, mask 
 }: FormFieldProps) {
-  const baseClasses = 'bg-grey-border p-2 rounded-lg w-full';
+  const baseClasses = `bg-grey-border p-2 rounded-lg w-full ${error ? 'border-2 border-red-500' : ''}`;
+  
+  const handleChange = (newValue: string) => {
+    const maskedValue = mask ? mask(newValue) : newValue;
+    onChange(maskedValue);
+  };
 
   return (
     <div>
@@ -24,7 +31,7 @@ export default function FormField({
           name={name}
           id={name}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           required={required}
           className={baseClasses}
         >
@@ -42,10 +49,13 @@ export default function FormField({
           type={type}
           placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           required={required}
           className={baseClasses}
         />
+      )}
+      {error && (
+        <p className='text-[#E84855] text-sm mt-1'>{error}</p>
       )}
     </div>
   );

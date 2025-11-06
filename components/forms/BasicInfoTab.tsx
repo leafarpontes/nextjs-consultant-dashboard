@@ -1,5 +1,5 @@
 import FormField from './FormField';
-import { formatCpf } from '@/utils/formatters';
+import { formatCpf, formatPhone, formatCEP } from '@/utils/formatters';
 import { BRAZILIAN_STATES } from '@/constants/states';
 import { FormData } from '@/hooks/useUserForm';
 
@@ -8,12 +8,15 @@ interface BasicInfoTabProps {
   cpf: string;
   onInputChange: (field: keyof FormData, value: string) => void;
   onCpfChange: (value: string) => void;
+  errors: Partial<FormData & { cpf: string }>;
+  onCpfValidate: (value: string) => void;
 }
 
-export default function BasicInfoTab({ formData, cpf, onInputChange, onCpfChange }: BasicInfoTabProps) {
+export default function BasicInfoTab({ formData, cpf, onInputChange, onCpfChange, errors, onCpfValidate }: BasicInfoTabProps) {
   const handleCpfChange = (value: string) => {
     const formatted = formatCpf(value);
     onCpfChange(formatted);
+    onCpfValidate(formatted);
   };
 
   return (
@@ -36,8 +39,11 @@ export default function BasicInfoTab({ formData, cpf, onInputChange, onCpfChange
             placeholder='000.000.000-00'
             value={cpf}
             onChange={(e) => handleCpfChange(e.target.value)}
-            className='bg-grey-border p-2 rounded-lg w-full'
+            className={`bg-grey-border p-2 rounded-lg w-full ${errors.cpf ? 'border-2 border-red-500' : ''}`}
           />
+          {errors.cpf && (
+            <p className='text-red-500 text-sm mt-1'>{errors.cpf}</p>
+          )}
         </div>
       </div>
 
@@ -45,9 +51,11 @@ export default function BasicInfoTab({ formData, cpf, onInputChange, onCpfChange
         <FormField
           label='CEP'
           name='cep'
-          placeholder='Insira o CEP'
+          placeholder='00000-000'
           value={formData.cep}
           onChange={(value) => onInputChange('cep', value)}
+          mask={formatCEP}
+          error={errors.cep}
           required
         />
         <FormField
