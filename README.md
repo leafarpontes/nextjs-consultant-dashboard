@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Consultant Dashboard
+
+A full-stack dashboard for managing consultants and clients with user creation, editing, filtering, and analytics.
+
+## Live Demo
+
+**[https://consultant-dashboard-theta.vercel.app/](https://consultant-dashboard-theta.vercel.app/)**
+
+## Features
+
+- **User/Consultant Management**: Complete CRUD operations for users and consultants
+- **Brazilian Form Validation**: Real-time validation for CPF, phone, CEP, and email
+- **Input Masking**: Auto-formatting for Brazilian phone numbers, CPF, and CEP
+- **Client Assignment**: Consultants can be assigned multiple clients
+- **Advanced Filtering**: Filter users by consultant name/email and date ranges
+- **Weekly Analytics**: Track new clients with growth indicators
+- **Responsive Design**: Modern UI built with Tailwind CSS
+- **Brazilian Localization**: Dates, time, and text in Portuguese/Brazilian format
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL (Supabase)
+- **ORM**: Prisma
+- **Deployment**: Vercel
+- **Validation**: Custom Brazilian validators (CPF, phone, CEP)
+
+## Architecture
+
+- **Modular Components**: Reusable form components and custom hooks
+- **Server Components**: Data fetching on the server for better performance
+- **Client Components**: Interactive forms and real-time validation
+- **API Consolidation**: Single flexible endpoints with query parameters
+- **Type Safety**: Full TypeScript implementation with proper interfaces
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository**
+   ```bash
+   git clone [your-repo-url]
+   cd nextjs-consultant-dashboard
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Add your DATABASE_URL
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Run database migrations**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-## Learn More
+6. **Open [http://localhost:3000](http://localhost:3000)**
 
-To learn more about Next.js, take a look at the following resources:
+## Key Features Showcase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### User Management
+- Create users with tabbed interface (basic info + client assignment)
+- Edit existing users with search and selection
+- Form validation with real-time feedback
+- Brazilian input masking (phone, CPF, CEP)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Dashboard Analytics
+- User table with Brazilian date/time formatting
+- Filter by consultant or date range
+- Weekly new clients widget with growth indicators
+- Responsive design for all screen sizes
 
-## Deploy on Vercel
+### Data Validation
+- **Email**: Standard email format validation
+- **Phone**: Brazilian format (10-11 digits) with masking
+- **CPF**: 11-digit validation with auto-formatting
+- **CEP**: 8-digit postal code with hyphen insertion
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application is deployed on Vercel with:
+- Automatic deployments from main branch
+- Environment variables configured
+- PostgreSQL database hosted on Supabase
+- Brazilian timezone configuration (America/Sao_Paulo)
