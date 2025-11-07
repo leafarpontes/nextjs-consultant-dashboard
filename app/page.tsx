@@ -1,4 +1,5 @@
 import DashboardFilters from "@/components/DashboardFilters";
+import NewClientsWidget from "@/components/NewClientsWidget";
 import { Prisma } from "./generated/prisma/client";
 import Link from "next/link";
 import { formatBrazilianDateTime, formatAge } from "@/utils/formatters";
@@ -36,6 +37,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
         <h1 className='text-3xl font-extrabold'>
           Dashboard
         </h1>
+        <div className='my-4'>
+          <NewClientsWidget consultantId={params.consultant} />
+        </div>
         <div className='flex gap-4 my-2'>
           <Link
             href={'/create-user'}
