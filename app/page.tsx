@@ -21,9 +21,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
   }
   
   if (params.dateFrom && params.dateTo) {
+    // Convert Brazilian date inputs to UTC for database query
+    const startDate = new Date(params.dateFrom + 'T00:00:00-03:00'); // Brazilian timezone start of day
+    const endDate = new Date(params.dateTo + 'T23:59:59.999-03:00'); // Brazilian timezone end of day
+    
     whereClause.createdAt = {
-      gte: new Date(params.dateFrom),
-      lte: new Date(params.dateTo + 'T23:59:59.999Z')
+      gte: startDate,
+      lte: endDate
     };
   }
   
