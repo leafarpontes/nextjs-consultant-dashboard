@@ -88,7 +88,7 @@ export default function DashboardFiltersClient({ consultants, searchParams }: Pr
           id='dateTo'
           type="date"
           className='bg-grey-border ml-2 p-3 rounded-lg'
-          defaultValue={searchParams?.dateTo || new Date().toISOString().split('T')[0]}
+          defaultValue={searchParams?.dateTo || new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' })}
         />
       </div>
       <div className='p-4 flex items-end'>

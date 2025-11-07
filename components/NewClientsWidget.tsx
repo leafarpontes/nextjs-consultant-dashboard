@@ -50,7 +50,7 @@ export default function NewClientsWidget({ consultantId }: NewClientsWidgetProps
         {!loading && (
           clientCount > 0 ? (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#00f700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#00f700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           ) : (
             <svg className='w-4 h-4 text-gray-500' fill='currentColor' viewBox='0 0 20 20'>
